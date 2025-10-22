@@ -39,7 +39,7 @@ public class TelaCadastrarEventoController {
     @FXML
     private TextField precoDigitado;
 
-    private EventoDAO eventoDAO = new EventoDAO();
+    private  EventoDAO eventoDAO = new EventoDAO();
     private CidadeDAO cidadeDAO = new CidadeDAO();
 
     @FXML
