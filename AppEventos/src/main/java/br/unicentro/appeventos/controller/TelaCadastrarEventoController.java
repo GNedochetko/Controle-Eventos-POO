@@ -43,6 +43,9 @@ public class TelaCadastrarEventoController {
     private CidadeDAO cidadeDAO = new CidadeDAO();
 
     @FXML
+    private Button btnVoltar;
+
+    @FXML
     void botaoCadastrarEventoOnAction(ActionEvent event) {
         String nome = nomeDigitado.getText().trim();
         if (nome.isEmpty()) {

@@ -9,25 +9,22 @@ import javafx.scene.layout.VBox;
 
 public class TelaVisualizarEventoController {
     @FXML
-    private VBox VbMostraEventos;
+    private Button btnEditar;
 
     @FXML
-    private VBox VbPesquisar;
+    private Button btnExcluir;
 
     @FXML
-    private Button btnPesquisar;
-
-    @FXML
-    private ImageView imgEventos;
+    private Button btnVoltar;
 
     @FXML
     private Label lblCidade;
 
     @FXML
-    private Label lblDataIni;
+    private Label lblData;
 
     @FXML
-    private Label lblDataTer;
+    private Label lblDescricao;
 
     @FXML
     private Label lblEventos;
@@ -37,20 +34,5 @@ public class TelaVisualizarEventoController {
 
     @FXML
     private Label lblPreco;
-
-    @FXML
-    private Label lblVbpesquisar;
-
-    @FXML
-    private TextArea txtfDescricao;
-
-    @FXML
-    private Label lblDescricao;
-
-    @FXML
-    private VBox vbEventos;
-
-    @FXML
-    private VBox vbInfos;
 
 }

@@ -29,6 +29,11 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TelaPesquisarEventoController {
+    private List<Evento> resultados = new ArrayList<>();
+    private String termoPesquisado;
+    private int paginaAtual = 0;
+    private final int eventosPorPagina = 5;
+
     @FXML
     private Button botaoVoltar;
 
@@ -41,10 +46,6 @@ public class TelaPesquisarEventoController {
     @FXML
     private ListView<Evento> listaEventos;
 
-    private List<Evento> resultados = new ArrayList<>();
-    private String termoPesquisado;
-    private int paginaAtual = 0;
-    private final int eventosPorPagina = 5;
 
     public void setTermoPesquisado(String termo) {
         this.termoPesquisado = termo.toLowerCase();
