@@ -763,6 +763,7 @@
 											"model": {
 												"$ref": "AAAAAAGZ3tJW9Aaflbw="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": true,
 											"left": 621,
@@ -781,10 +782,11 @@
 											"model": {
 												"$ref": "AAAAAAGZ3tLbawhaCrU="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": true,
 											"left": 621,
-											"top": 480,
+											"top": 465,
 											"width": 90.9716796875,
 											"height": 13,
 											"text": "+categoria",
@@ -802,7 +804,7 @@
 											"font": "Arial;13;0",
 											"parentStyle": true,
 											"left": 621,
-											"top": 495,
+											"top": 465,
 											"width": 90.9716796875,
 											"height": 13,
 											"text": "+precoIngresso",
@@ -820,7 +822,7 @@
 											"font": "Arial;13;0",
 											"parentStyle": true,
 											"left": 621,
-											"top": 510,
+											"top": 480,
 											"width": 90.9716796875,
 											"height": 13,
 											"text": "+FK cidadeId",
@@ -832,7 +834,7 @@
 									"left": 616,
 									"top": 385,
 									"width": 100.9716796875,
-									"height": 143
+									"height": 113
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -846,7 +848,7 @@
 									"font": "Arial;13;0",
 									"parentStyle": true,
 									"left": 616,
-									"top": 528,
+									"top": 498,
 									"width": 100.9716796875,
 									"height": 10
 								},
@@ -1552,7 +1554,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3srBpPJ4S/0="
 							},
-							"name": "PK cidadeId"
+							"name": "PK cidadeId",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1560,7 +1563,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3srBpPJ4S/0="
 							},
-							"name": "nome"
+							"name": "nome",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1568,7 +1572,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3srBpPJ4S/0="
 							},
-							"name": "populacao"
+							"name": "populacao",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1576,7 +1581,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3srBpPJ4S/0="
 							},
-							"name": "area"
+							"name": "area",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1584,7 +1590,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3srBpPJ4S/0="
 							},
-							"name": "FK estadoId"
+							"name": "FK estadoId",
+							"type": ""
 						}
 					]
 				},
@@ -1602,7 +1609,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3sr6tPKiJKg="
 							},
-							"name": "PK estadoId"
+							"name": "PK estadoId",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1610,7 +1618,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3sr6tPKiJKg="
 							},
-							"name": "nome"
+							"name": "nome",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1618,7 +1627,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3sr6tPKiJKg="
 							},
-							"name": "sigla"
+							"name": "sigla",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1626,7 +1636,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3sr6tPKiJKg="
 							},
-							"name": "regiao"
+							"name": "regiao",
+							"type": ""
 						}
 					]
 				},
@@ -1644,7 +1655,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3stoFfORrvw="
 							},
-							"name": "PK eventoId"
+							"name": "PK eventoId",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1652,7 +1664,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3stoFfORrvw="
 							},
-							"name": "nome"
+							"name": "nome",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1660,7 +1673,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3stoFfORrvw="
 							},
-							"name": "descricao"
+							"name": "descricao",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1668,7 +1682,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3stoFfORrvw="
 							},
-							"name": "dataInicio"
+							"name": "dataInicio",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1676,7 +1691,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3stoFfORrvw="
 							},
-							"name": "dataFim"
+							"name": "dataFim",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1684,7 +1700,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3stoFfORrvw="
 							},
-							"name": "local"
+							"name": "local",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1692,7 +1709,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3stoFfORrvw="
 							},
-							"name": "categoria"
+							"name": "categoria",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1700,7 +1718,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3stoFfORrvw="
 							},
-							"name": "precoIngresso"
+							"name": "precoIngresso",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",
@@ -1708,7 +1727,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGZ3stoFfORrvw="
 							},
-							"name": "FK cidadeId"
+							"name": "FK cidadeId",
+							"type": ""
 						}
 					]
 				}

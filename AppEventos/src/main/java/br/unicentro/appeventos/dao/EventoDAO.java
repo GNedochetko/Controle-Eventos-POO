@@ -106,8 +106,8 @@ public class EventoDAO implements IEvento {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Cidade cidade = new Cidade();
-                cidade.setCidadeId(rs.getInt("cidadeId"));
+                CidadeDAO cidadeDAO = new CidadeDAO();
+                Cidade cidade = cidadeDAO.buscarPorId(rs.getInt("cidadeId"));
 
                 Evento evento = new Evento(
                         rs.getInt("eventoId"),
@@ -154,7 +154,7 @@ public class EventoDAO implements IEvento {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // se não encontrar NADA, retorna null
+        return null;
     }
 
 
