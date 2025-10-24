@@ -53,16 +53,18 @@ public class EventoDAO implements IEvento {
         }
     }
 
-    public void excluir(int eventoId) {
+    public boolean excluir(int eventoId) {
         sql = "DELETE FROM Evento WHERE eventoId=?";
         try (Connection conexao = Conexao.getConexao(Conexao.stringDeConexao, Conexao.usuario, Conexao.senha);
              PreparedStatement stmt = conexao.prepareStatement(sql)) {
 
             stmt.setInt(1, eventoId);
             stmt.executeUpdate();
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
 

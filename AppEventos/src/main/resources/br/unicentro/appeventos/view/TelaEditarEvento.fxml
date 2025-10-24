@@ -22,47 +22,47 @@
         <VBox layoutX="47.0" layoutY="60.0" prefHeight="54.0" prefWidth="445.0">
             <children>
                 <Label prefHeight="35.0" prefWidth="101.0" text="Nome:" />
-                <TextField fx:id="nomeDigitado" />
+                <TextField fx:id="txtNome" />
             </children>
         </VBox>
         <VBox layoutX="47.0" layoutY="129.0" prefHeight="54.0" prefWidth="217.0">
             <children>
                 <Label prefHeight="30.0" prefWidth="205.0" text="Data do início do evento:" />
-                <DatePicker fx:id="dataInicioDigitada" />
+                <DatePicker fx:id="dpDataIni" />
             </children>
         </VBox>
         <VBox layoutX="270.0" layoutY="129.0" prefHeight="54.0" prefWidth="217.0">
             <children>
                 <Label prefHeight="30.0" prefWidth="187.0" text="Data do término do evento" />
-                <DatePicker fx:id="dataFimDigitada" />
+                <DatePicker fx:id="dpDataFim" />
             </children>
         </VBox>
         <VBox layoutX="47.0" layoutY="206.0" prefHeight="54.0" prefWidth="198.0">
             <children>
                 <Label prefHeight="30.0" prefWidth="136.0" text="Preço da entrada:" />
-                <TextField fx:id="precoDigitado" />
+                <TextField fx:id="txtPreco" />
             </children>
         </VBox>
         <VBox layoutX="270.0" layoutY="206.0" prefHeight="54.0" prefWidth="198.0">
             <children>
                 <Label prefHeight="30.0" prefWidth="136.0" text="Cidade:" />
-                <TextField fx:id="cidadeDigitado" />
+                <TextField fx:id="txtCidade" />
             </children>
         </VBox>
         <VBox layoutX="47.0" layoutY="283.0" prefHeight="102.0" prefWidth="462.0">
             <children>
                 <Label prefHeight="30.0" prefWidth="158.0" text="Descrição do evento:" />
-                <TextArea fx:id="descricaoDigitada" prefHeight="200.0" prefWidth="200.0" />
+                <TextArea fx:id="txtDescricao" prefHeight="200.0" prefWidth="200.0" />
             </children>
         </VBox>
         <HBox alignment="CENTER" layoutX="2.0" layoutY="440.0" prefHeight="48.0" prefWidth="588.0" spacing="10.0">
             <children>
-                <Button fx:id="botaoEditarEventoOnAction" mnemonicParsing="false" onAction="#BotaoEditarEventoOnAction" text="Editar Evento">
+                <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#onActionBtnSalvar" text="Salvar">
                     <font>
                         <Font size="16.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnVoltar" mnemonicParsing="false" prefHeight="36.0" prefWidth="65.0" text="Voltar">
+                <Button fx:id="btnVoltar" mnemonicParsing="false" onAction="#onActionbtnVoltar" prefHeight="36.0" prefWidth="65.0" text="Voltar">
                <font>
                   <Font size="16.0" />
                </font></Button>

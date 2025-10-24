@@ -206,6 +206,19 @@ public class TelaPesquisarEventoController {
     }
 
     private void botaoDetalhesOnAction(Evento evento) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/appeventos/view/TelaVisualizarEvento.fxml"));
+            Parent root = loader.load();
 
+            TelaVisualizarEventoController ctrl = loader.getController();
+            ctrl.setEvento(evento);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

@@ -1,15 +1,22 @@
 package br.unicentro.appeventos.controller;
 
+import br.unicentro.appeventos.model.Evento;
+import br.unicentro.appeventos.dao.EventoDAO;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.event.ActionEvent;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+import java.util.Optional;
+
 public class TelaVisualizarEventoController {
-    @FXML
-    private Button btnEditar;
+    private Evento eventoAtual;
 
     @FXML
     private Button btnExcluir;
@@ -27,12 +34,80 @@ public class TelaVisualizarEventoController {
     private Label lblDescricao;
 
     @FXML
-    private Label lblEventos;
-
-    @FXML
     private Label lblNome;
 
     @FXML
     private Label lblPreco;
+
+    @FXML
+    void onEditarBtn(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/appeventos/view/TelaEditarEvento.fxml"));
+            Parent root = loader.load();
+
+            TelaEditarEventoController ctrl = loader.getController();
+            ctrl.carregaEvento(eventoAtual.getEventoId());
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void onActionbtnExcluir(ActionEvent event) {
+        if (eventoAtual == null) {return;}
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmação de exclusão");
+        alert.setHeaderText("Excluir evento");
+        alert.setContentText("Deseja realmente excluir o evento " + eventoAtual.getNome() + "?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            EventoDAO eventoDao = new EventoDAO();
+            boolean sucesso = eventoDao.excluir(eventoAtual.getEventoId());
+
+            if (sucesso) {
+                Alert confirm = new Alert(Alert.AlertType.INFORMATION);
+                confirm.setTitle("Exclusão realizada");
+                confirm.setHeaderText(null);
+                confirm.setContentText("O evento \"" + eventoAtual.getNome() + "\" foi excluído com sucesso!");
+                confirm.showAndWait();
+
+                Stage stage = (Stage) btnExcluir.getScene().getWindow();
+                stage.close();
+            } else {
+                Alert erro = new Alert(Alert.AlertType.ERROR);
+                erro.setTitle("Erro");
+                erro.setHeaderText("Não foi possível excluir");
+                erro.setContentText("Ocorreu um problema ao excluir o evento.");
+                erro.showAndWait();
+            }
+        }
+    }
+
+    @FXML
+    void onActionbtnVoltar(ActionEvent event) {
+        Stage stage = (Stage) btnVoltar.getScene().getWindow();
+        stage.close();
+    }
+
+    public void preencheCampos(Evento evento) {
+        this.eventoAtual = evento;
+
+        lblNome.setText(evento.getNome());
+        lblDescricao.setText(evento.getDescricao());
+        lblData.setText(evento.getDataInicio() + " a " + evento.getDataFim());
+        lblCidade.setText(evento.getCidade().getNome());
+        lblPreco.setText(String.valueOf(evento.getPrecoIngresso()));
+    }
+
+    public void setEvento(Evento evento) {
+        this.eventoAtual = evento;
+    }
 
 }

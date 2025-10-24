@@ -6,7 +6,7 @@ import java.util.List;
 public interface IEvento {
     void inserir(Evento evento);
     void atualizar(Evento evento);
-    void excluir(int eventoId);
+    boolean excluir(int eventoId);
     Evento buscarPorId(int eventoId);
     List<Evento> listarTodos();
     Evento buscarPorNome(String nome);
