@@ -107,5 +107,18 @@ public class TelaCadastrarEventoController {
         alert.setContentText(msg);
         alert.showAndWait();
     }
+
+    @FXML
+    void BotaoVoltarOnAction(ActionEvent event){
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Tela Inicial");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

@@ -9,17 +9,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.text.Text;
+import javafx.scene.control.*;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
@@ -49,15 +42,13 @@ public class TelaPesquisarEventoController {
 
     public void setTermoPesquisado(String termo) {
         this.termoPesquisado = termo.toLowerCase();
-        carregarResultados();
+        ActionEvent event = new ActionEvent();
+        carregarResultados(event);
     }
 
     @FXML
     public void initialize() {
         listaEventos.setCellFactory(list -> new ListCell<Evento>() {
-            private final Text text = new Text();
-            private final Button btnDetalhes = new Button("Ver detalhes");
-
             @Override
             protected void updateItem(Evento evento, boolean empty) {
                 super.updateItem(evento, empty);
@@ -68,10 +59,7 @@ public class TelaPesquisarEventoController {
                     return;
                 }
 
-                String nome   = evento.getNome();
-                String cidade = evento.getCidade().getNome();
-                String estado = evento.getCidade().getEstado().getSigla();
-                String linha  = nome + " - " + cidade + ", " + estado;
+                String linha  = evento.toString();
 
                 Node marcado = criarTextoComHighlight(linha, termoPesquisado);
 
@@ -81,7 +69,7 @@ public class TelaPesquisarEventoController {
                 HBox row = new HBox(10, marcado, btnDetalhes);
                 row.setFillHeight(true);
 
-                HBox.setHgrow(marcado, javafx.scene.layout.Priority.ALWAYS);
+                HBox.setHgrow(marcado, Priority.ALWAYS);
 
                 setText(null);
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -90,7 +78,7 @@ public class TelaPesquisarEventoController {
 
             private Node criarTextoComHighlight(String texto, String termo) {
                 if (termo == null || termo.isBlank()) {
-                    return new Label(texto); // sem highlight
+                    return new Label(texto);
                 }
 
                 String base = texto;
@@ -134,7 +122,7 @@ public class TelaPesquisarEventoController {
         });
     }
 
-    private void carregarResultados() {
+    private void carregarResultados(ActionEvent event) {
         EventoDAO eventoDAO = new EventoDAO();
         List<Evento> todosEventos = eventoDAO.listarTodos();
 
@@ -142,7 +130,7 @@ public class TelaPesquisarEventoController {
         for (Evento evento : todosEventos) {
             String nome = evento.getNome().toLowerCase();
             String cidade = evento.getCidade().getNome().toLowerCase();
-            String estado = evento.getCidade().getEstado().getSigla().toLowerCase();
+            String estado = evento.getCidade().getEstado().getNome().toLowerCase();
 
             if (nome.contains(termoPesquisado) || cidade.contains(termoPesquisado) || estado.contains(termoPesquisado)) {
                 resultados.add(evento);
@@ -153,7 +141,21 @@ public class TelaPesquisarEventoController {
                 .thenComparing(e -> !e.getCidade().getNome().toLowerCase().contains(termoPesquisado))
                 .thenComparing(e -> !e.getCidade().getEstado().getSigla().toLowerCase().contains(termoPesquisado)));
 
-        exibirPagina(paginaAtual);
+        if(resultados.size() == 0){
+            alertar("Nenhum evento Encontrado.");
+
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Tela Inicial");
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            exibirPagina(paginaAtual);
+        }
     }
 
     private void exibirPagina(int pagina) {
@@ -196,9 +198,11 @@ public class TelaPesquisarEventoController {
         }
     }
 
-    private String formatarTextoComDestaque(String texto) {
-        return texto.replaceAll("(?i)(" + java.util.regex.Pattern.quote(termoPesquisado) + ")",
-                "**$1**");
+    private void alertar(String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 
     private void botaoDetalhesOnAction(Evento evento) {

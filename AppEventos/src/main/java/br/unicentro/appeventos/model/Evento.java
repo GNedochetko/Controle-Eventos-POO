@@ -83,7 +83,7 @@ public class Evento {
 
     @Override
     public String toString() {
-        return nome + " - " + cidade.getNome();
+        return nome + " - " + cidade.getNome() + ", " + cidade.getEstado().getNome();
     }
 }
 
