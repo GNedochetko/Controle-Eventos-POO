@@ -46,7 +46,7 @@ public class TelaEditarEventoController {
         try {
             Evento e = new Evento();
 
-            e.setEventoId(this.idEvento); // se for necessário para update
+            e.setEventoId(this.idEvento);
             e.setNome(txtNome.getText());
             e.setDescricao(txtDescricao.getText());
             e.setDataInicio(dpDataIni.getValue());
@@ -66,8 +66,22 @@ public class TelaEditarEventoController {
 
     @FXML
     void onActionbtnVoltar(ActionEvent event) {
-        Stage stage = (Stage) btnVoltar.getScene().getWindow();
-        stage.close();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/appeventos/view/TelaVisualizarEvento.fxml"));
+            Parent root = loader.load();
+
+            TelaVisualizarEventoController ctrl = loader.getController();
+
+            Evento evento = eventoDao.buscarPorId(this.idEvento);
+            ctrl.preencheCampos(evento);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void carregaEvento(int id) {
@@ -88,5 +102,6 @@ public class TelaEditarEventoController {
         dpDataFim.setValue(evento.getDataFim());
         txtPreco.setText(String.valueOf(evento.getPrecoIngresso()));
         txtCidade.setText(evento.getCidade().getNome());
+        txtDescricao.setText(evento.getDescricao());
     }
 }

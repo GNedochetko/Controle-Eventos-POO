@@ -1,6 +1,7 @@
 package br.unicentro.appeventos.controller;
 
 import br.unicentro.appeventos.model.Evento;
+import br.unicentro.appeventos.controller.TelaPesquisarEventoController;
 import br.unicentro.appeventos.dao.EventoDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +10,17 @@ import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class TelaVisualizarEventoController {
+
     private Evento eventoAtual;
 
     @FXML
@@ -39,6 +44,14 @@ public class TelaVisualizarEventoController {
     @FXML
     private Label lblPreco;
 
+    public void initialize() {
+        lblNome.setText("");
+        lblDescricao.setText("");
+        lblData.setText("");
+        lblCidade.setText("");
+        lblPreco.setText("");
+    }
+
     @FXML
     void onEditarBtn(ActionEvent event) {
         try {
@@ -46,9 +59,10 @@ public class TelaVisualizarEventoController {
             Parent root = loader.load();
 
             TelaEditarEventoController ctrl = loader.getController();
-            ctrl.carregaEvento(eventoAtual.getEventoId());
+            ctrl.preencherCampos(eventoAtual);
 
-            Stage stage = new Stage();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
             stage.setScene(new Scene(root));
             stage.show();
         }catch (IOException e) {
@@ -78,8 +92,18 @@ public class TelaVisualizarEventoController {
                 confirm.setContentText("O evento \"" + eventoAtual.getNome() + "\" foi excluído com sucesso!");
                 confirm.showAndWait();
 
-                Stage stage = (Stage) btnExcluir.getScene().getWindow();
-                stage.close();
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
+                    Parent root = loader.load();
+
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             } else {
                 Alert erro = new Alert(Alert.AlertType.ERROR);
                 erro.setTitle("Erro");
@@ -92,8 +116,19 @@ public class TelaVisualizarEventoController {
 
     @FXML
     void onActionbtnVoltar(ActionEvent event) {
-        Stage stage = (Stage) btnVoltar.getScene().getWindow();
-        stage.close();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/appeventos/view/TelaPesquisarEvento.fxml"));
+            Parent root = loader.load();
+
+            TelaPesquisarEventoController ctrl = loader.getController();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void preencheCampos(Evento evento) {

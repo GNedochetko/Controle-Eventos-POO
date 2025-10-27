@@ -28,9 +28,6 @@ public class TelaPesquisarEventoController {
     private final int eventosPorPagina = 5;
 
     @FXML
-    private Button botaoVoltar;
-
-    @FXML
     private Button botaoAnterior;
 
     @FXML
@@ -64,7 +61,7 @@ public class TelaPesquisarEventoController {
                 Node marcado = criarTextoComHighlight(linha, termoPesquisado);
 
                 Button btnDetalhes = new Button("Ver detalhes");
-                btnDetalhes.setOnAction(e -> botaoDetalhesOnAction(evento));
+                btnDetalhes.setOnAction((e -> botaoDetalhesOnAction(evento, e)));
 
                 HBox row = new HBox(10, marcado, btnDetalhes);
                 row.setFillHeight(true);
@@ -122,7 +119,7 @@ public class TelaPesquisarEventoController {
         });
     }
 
-    private void carregarResultados(ActionEvent event) {
+    public void carregarResultados(ActionEvent event) {
         EventoDAO eventoDAO = new EventoDAO();
         List<Evento> todosEventos = eventoDAO.listarTodos();
 
@@ -205,18 +202,18 @@ public class TelaPesquisarEventoController {
         alert.showAndWait();
     }
 
-    private void botaoDetalhesOnAction(Evento evento) {
+    private void botaoDetalhesOnAction(Evento evento, ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/appeventos/view/TelaVisualizarEvento.fxml"));
             Parent root = loader.load();
 
             TelaVisualizarEventoController ctrl = loader.getController();
-            ctrl.setEvento(evento);
+            ctrl.preencheCampos(evento);
 
-            Stage stage = new Stage();
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
             stage.setScene(new Scene(root));
             stage.show();
-
         } catch (IOException ex) {
             ex.printStackTrace();
         }
