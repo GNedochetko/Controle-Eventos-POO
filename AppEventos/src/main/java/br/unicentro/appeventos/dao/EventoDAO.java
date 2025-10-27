@@ -68,37 +68,6 @@ public class EventoDAO implements IEvento {
         }
     }
 
-    public Evento buscarPorId(int eventoId) {
-        String sql = """
-            SELECT * FROM Evento WHERE eventoId=?
-            """;
-        try (Connection conexao = Conexao.getConexao(Conexao.stringDeConexao, Conexao.usuario, Conexao.senha);
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
-
-            stmt.setInt(1, eventoId);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                Cidade cidade = new Cidade();
-                cidade.setCidadeId(rs.getInt("cidadeId"));
-
-                return new Evento(
-                        rs.getInt("eventoId"),
-                        rs.getString("nome"),
-                        rs.getString("descricao"),
-                        rs.getDate("dataInicio").toLocalDate(),
-                        rs.getDate("dataFim").toLocalDate(),
-                        rs.getDouble("precoIngresso"),
-                        cidade
-                );
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public List<Evento> listarTodos() {
         List<Evento> lista = new ArrayList<>();
         sql = "SELECT * FROM Evento ORDER BY dataInicio";
@@ -157,75 +126,6 @@ public class EventoDAO implements IEvento {
             e.printStackTrace();
         }
         return null;
-    }
-
-
-    public List<Evento> buscarPorCidade(int cidadeId) {
-        List<Evento> lista = new ArrayList<>();
-        sql = "SELECT * FROM Evento WHERE cidadeId = ?";
-
-        try (Connection conexao = Conexao.getConexao(Conexao.stringDeConexao, Conexao.usuario, Conexao.senha);
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
-
-            stmt.setInt(1, cidadeId);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Cidade cidade = new Cidade();
-                cidade.setCidadeId(cidadeId);
-
-                Evento evento = new Evento(
-                        rs.getInt("eventoId"),
-                        rs.getString("nome"),
-                        rs.getString("descricao"),
-                        rs.getDate("dataInicio").toLocalDate(),
-                        rs.getDate("dataFim").toLocalDate(),
-                        rs.getDouble("precoIngresso"),
-                        cidade
-                );
-                lista.add(evento);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return lista;
-    }
-
-    public List<Evento> buscarPorEstado(int estadoId) {
-        List<Evento> lista = new ArrayList<>();
-        sql = """
-            SELECT e.* FROM Evento e
-            JOIN Cidade c ON e.cidadeId = c.cidadeId
-            WHERE c.estadoId = ?
-            """;
-
-        try (Connection conexao = Conexao.getConexao(Conexao.stringDeConexao, Conexao.usuario, Conexao.senha);
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
-
-            stmt.setInt(1, estadoId);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Cidade cidade = new Cidade();
-                cidade.setCidadeId(rs.getInt("cidadeId"));
-
-                Evento evento = new Evento(
-                        rs.getInt("eventoId"),
-                        rs.getString("nome"),
-                        rs.getString("descricao"),
-                        rs.getDate("dataInicio").toLocalDate(),
-                        rs.getDate("dataFim").toLocalDate(),
-                        rs.getDouble("precoIngresso"),
-                        cidade
-                );
-                lista.add(evento);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return lista;
     }
 }
 

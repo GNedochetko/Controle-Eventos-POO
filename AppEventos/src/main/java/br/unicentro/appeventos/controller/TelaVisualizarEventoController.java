@@ -60,8 +60,10 @@ public class TelaVisualizarEventoController {
 
             TelaEditarEventoController ctrl = loader.getController();
             ctrl.preencherCampos(eventoAtual);
+            ctrl.setIdEvento(eventoAtual.getEventoId());
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setTitle("Editar Evento");
 
             stage.setScene(new Scene(root));
             stage.show();
@@ -98,6 +100,7 @@ public class TelaVisualizarEventoController {
 
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.setScene(new Scene(root));
+                    stage.setTitle("Tela Inicial");
                     stage.show();
 
                 } catch (IOException e) {
@@ -117,13 +120,12 @@ public class TelaVisualizarEventoController {
     @FXML
     void onActionbtnVoltar(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/appeventos/view/TelaPesquisarEvento.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
             Parent root = loader.load();
-
-            TelaPesquisarEventoController ctrl = loader.getController();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle("Tela Inicial");
             stage.show();
 
         } catch (IOException e) {

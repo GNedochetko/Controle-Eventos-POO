@@ -34,28 +34,8 @@ public class Cidade {
         this.nome = nome;
     }
 
-    public int getPopulacao() {
-        return populacao;
-    }
-
-    public void setPopulacao(int populacao) {
-        this.populacao = populacao;
-    }
-
-    public double getArea() {
-        return area;
-    }
-
-    public void setArea(double area) {
-        this.area = area;
-    }
-
     public Estado getEstado() {
         return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
     }
 
     @Override

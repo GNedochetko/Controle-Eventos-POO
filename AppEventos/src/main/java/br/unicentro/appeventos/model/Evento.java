@@ -64,7 +64,6 @@ public class Evento {
         this.dataFim = dataFim;
     }
 
-
     public double getPrecoIngresso() {
         return precoIngresso;
     }

@@ -21,6 +21,9 @@ public class TelaEditarEventoController {
     private EventoDAO eventoDao = new EventoDAO();
 
     @FXML
+    public Button btnSalvar;
+
+    @FXML
     private Button btnVoltar;
 
     @FXML
@@ -46,7 +49,7 @@ public class TelaEditarEventoController {
         try {
             Evento e = new Evento();
 
-            e.setEventoId(this.idEvento);
+            e.setEventoId(idEvento);
             e.setNome(txtNome.getText());
             e.setDescricao(txtDescricao.getText());
             e.setDataInicio(dpDataIni.getValue());
@@ -59,39 +62,44 @@ public class TelaEditarEventoController {
             e.setCidade(c);
 
             eventoDao.atualizar(e);
+
+            alertar("Evento editado com sucesso!");
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Tela Inicial");
+                stage.show();
+            } catch (IOException ex2) {
+                ex2.printStackTrace();
+            }
+
         } catch (Exception ex) {
+            alertar("Ocorreu algum erro, evento não editado!");
             ex.printStackTrace();
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Tela Inicial");
+                stage.show();
+            } catch (IOException ex2) {
+                ex2.printStackTrace();
+            }
+
         }
     }
 
     @FXML
     void onActionbtnVoltar(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/appeventos/view/TelaVisualizarEvento.fxml"));
-            Parent root = loader.load();
-
-            TelaVisualizarEventoController ctrl = loader.getController();
-
-            Evento evento = eventoDao.buscarPorId(this.idEvento);
-            ctrl.preencheCampos(evento);
-
+            Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle("Tela Inicial");
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void carregaEvento(int id) {
-        idEvento = id;
-
-        try {
-            Evento evento = eventoDao.buscarPorId(id);
-
-            preencherCampos(evento);
-        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -103,5 +111,16 @@ public class TelaEditarEventoController {
         txtPreco.setText(String.valueOf(evento.getPrecoIngresso()));
         txtCidade.setText(evento.getCidade().getNome());
         txtDescricao.setText(evento.getDescricao());
+    }
+
+    private void alertar(String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
+    public void setIdEvento(int idEvento) {
+        this.idEvento = idEvento;
     }
 }

@@ -13,7 +13,7 @@ public class Main extends Application {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
             Scene scene = new Scene(root);
-            stage.setTitle("Sistema de Eventos");
+            stage.setTitle("Tela inicial");
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {

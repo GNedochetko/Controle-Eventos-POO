@@ -7,9 +7,6 @@ public interface IEvento {
     void inserir(Evento evento);
     void atualizar(Evento evento);
     boolean excluir(int eventoId);
-    Evento buscarPorId(int eventoId);
     List<Evento> listarTodos();
     Evento buscarPorNome(String nome);
-    List<Evento> buscarPorCidade(int cidadeId);
-    List<Evento> buscarPorEstado(int estadoId);
 }

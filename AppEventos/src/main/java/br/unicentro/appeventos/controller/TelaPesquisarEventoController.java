@@ -211,6 +211,7 @@ public class TelaPesquisarEventoController {
             ctrl.preencheCampos(evento);
 
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setTitle("Visualizar Evento");
 
             stage.setScene(new Scene(root));
             stage.show();

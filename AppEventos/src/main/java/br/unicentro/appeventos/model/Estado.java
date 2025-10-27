@@ -16,14 +16,6 @@ public class Estado {
         this.regiao = regiao;
     }
 
-    public int getEstadoId() {
-        return estadoId;
-    }
-
-    public void setEstadoId(int estadoId) {
-        this.estadoId = estadoId;
-    }
-
     public String getNome() {
         return nome;
     }
@@ -34,18 +26,6 @@ public class Estado {
 
     public String getSigla() {
         return sigla;
-    }
-
-    public void setSigla(String sigla) {
-        this.sigla = sigla;
-    }
-
-    public String getRegiao() {
-        return regiao;
-    }
-
-    public void setRegiao(String regiao) {
-        this.regiao = regiao;
     }
 
     @Override
