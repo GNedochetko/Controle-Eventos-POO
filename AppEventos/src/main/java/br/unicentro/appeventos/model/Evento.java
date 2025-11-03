@@ -53,15 +53,20 @@ public class Evento {
     }
 
     public void setDataInicio(LocalDate dataInicio) {
+        if (dataFim != null && dataInicio.isAfter(dataFim))
+            throw new IllegalArgumentException("Data de início não pode ser depois da data final.");
         this.dataInicio = dataInicio;
     }
 
-    public LocalDate getDataFim() {
-        return dataFim;
+    public void setDataFim(LocalDate dataFim) {
+        if (dataInicio != null && dataFim.isBefore(dataInicio))
+            throw new IllegalArgumentException("Data final não pode ser antes da data inicial.");
+        this.dataFim = dataFim;
     }
 
-    public void setDataFim(LocalDate dataFim) {
-        this.dataFim = dataFim;
+
+    public LocalDate getDataFim() {
+        return dataFim;
     }
 
     public double getPrecoIngresso() {
@@ -69,6 +74,8 @@ public class Evento {
     }
 
     public void setPrecoIngresso(double precoIngresso) {
+        if(precoIngresso < 0)
+            throw new IllegalArgumentException("Preço do ingresso não pode ser negativo");
         this.precoIngresso = precoIngresso;
     }
 
@@ -77,8 +84,11 @@ public class Evento {
     }
 
     public void setCidade(Cidade cidade) {
+        if (cidade == null)
+            throw new IllegalArgumentException("Cidade não pode ser nula");
         this.cidade = cidade;
     }
+
 
     @Override
     public String toString() {
