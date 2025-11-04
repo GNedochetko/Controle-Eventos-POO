@@ -1,0 +1,15 @@
+Classe Evento:
+
+void testSetEventoIdErro():
+O método testa setando um ID incorreto e retorna\deve retornar um problema.
+
+void testSetEventoIdCrt():
+O método testa setando um ID correto e retorna\deve retornar nem um problema.
+
+Classe Cidade:
+
+public void testEstadoNotNull():
+O método testa se o estado da devida cidade não é null e retorna/deve retornar nem um problema
+
+public void testEstadoNull():
+O método testa se o estado da devida cidade é null e retorna/deve retornar um problema

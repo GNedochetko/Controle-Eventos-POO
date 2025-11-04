@@ -64,4 +64,20 @@ class EventoTest {
             e.setCidade(null);
         });
     }
+
+    @Test
+    public void testSetEventoIdErro() {
+        Evento e = new Evento();
+
+        e.setEventoId(-1);
+        assertFalse(e.getEventoId() > 0, "O ID do evento não deve ser negativo");
+    }
+
+    @Test
+    public void testSetEventoIdCrt() {
+        Evento e = new Evento();
+
+        e.setEventoId(1);
+        assertTrue(e.getEventoId() > 0, "O ID colocado deve ser positivo");
+    }
 }

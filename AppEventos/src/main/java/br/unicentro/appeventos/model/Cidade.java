@@ -7,8 +7,7 @@ public class Cidade {
     private double area;
     private Estado estado;
 
-    public Cidade() {
-    }
+    public Cidade() {}
 
     public Cidade(int cidadeId, String nome, int populacao, double area, Estado estado) {
         this.cidadeId = cidadeId;
