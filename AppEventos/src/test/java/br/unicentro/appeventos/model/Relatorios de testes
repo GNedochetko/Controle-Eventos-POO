@@ -6,6 +6,27 @@ O método testa setando um ID incorreto e retorna\deve retornar um problema.
 void testSetEventoIdCrt():
 O método testa setando um ID correto e retorna\deve retornar nem um problema.
 
+void setDataInicio():
+O método de set data de inicio no model possui um tratamento de exceção para caso a data de inicio seja depois da data de fim ele lançar IllegalArgumentException,
+o objetivo do teste é verificar se essa interação está acontecendo corretamente, para isso primeiro é usado uma data errada e usa o assertThrows, depois
+é usado com a data certa e verifica usando assertDoesNotThrow.
+
+void setDataFim():
+O método de set data de inicio no model possui um tratamento de exceção para caso a data de fim seja antes da data de inicio ele lançar IllegalArgumentException,
+o objetivo do teste é verificar se essa interação está acontecendo corretamente, para isso primeiro é usado uma data errada e usa o assertThrows, depois
+é usado com a data certa e verifica usando assertDoesNotThrow.
+
+void setPrecoIngresso():
+O método de set precoIngresso no model possui um tratamento de exceção para caso o valor ser negativo ele lançar IllegalArgumentException,
+o objetivo do teste é verificar se essa interação está acontecendo corretamente, para isso primeiro é usado um valor negativo para o preço e verifica com assertThrows, depois
+é usado com um valor positivo e verifica usando assertDoesNotThrow.
+
+void setCidade():
+O método de set Cidade no model possui um tratamento de exceção para caso a cidade seja nula (não for encontrada no banco de dados), uma IllegalArgumentException
+é lançada, o objetivo do teste é verificar se essa interação está acontecendo corretamente, para isso primeiro é registrado um novo evento ligando ele a cidade de 
+Guarapuava (que sabemos que está no banco de dados) e verificando com assertDoesNotThrow, depois é feita a mesma coisa passando o nome da cidade como null, verificando
+se a exceçao será lançada com o assertThrows.
+
 Classe Cidade:
 
 public void testEstadoNotNull():
