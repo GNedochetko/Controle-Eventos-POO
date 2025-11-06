@@ -16,11 +16,11 @@ class EventoTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             e.setDataInicio(LocalDate.of(2025, 5, 11));
-        });
+        }, "A exceção tem que ser lançada porque a data de inicio é depois da data de fim");
 
         assertDoesNotThrow(() -> {
             e.setDataInicio(LocalDate.of(2025, 5, 9));
-        });
+        }, "A exceção não deve ser lançada quando a data de inicio é antes da data de fim");
     }
 
     @Test
@@ -31,11 +31,11 @@ class EventoTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             e.setDataFim(LocalDate.of(2025, 5, 9));
-        });
+        }, "A exceção tem que ser lançada porque a data de fim é antes da data de início");
 
         assertDoesNotThrow(() -> {
             e.setDataFim(LocalDate.of(2025, 5, 11));
-        });
+        }, "A exceção não deve ser lançada quando a data de fim ´e depois da data de início");
     }
 
     @Test
@@ -44,11 +44,11 @@ class EventoTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             e.setPrecoIngresso(-1.0);
-        });
+        }, "A exceção deve ser lançada porque o preço do ingresso não pode ser negativo");
 
         assertDoesNotThrow(() -> {
             e.setPrecoIngresso(20.50);
-        });
+        }, "A exceção não deve ser lançada quando o preço do ingresso é maior ou igual a 0");
     }
 
     @Test
@@ -58,11 +58,11 @@ class EventoTest {
         cidade.setCidadeId(1);
         cidade.setNome("Guarapuava");
 
-        assertDoesNotThrow(() -> e.setCidade(cidade));
+        assertDoesNotThrow(() -> e.setCidade(cidade), "Nenhuma execeção deve ser lançada quando a cidade foi adicionada com sucesso");
 
         assertThrows(IllegalArgumentException.class, () -> {
             e.setCidade(null);
-        });
+        }, "A exceção deve ser lançada quando a cidade não foi encontrada no banco de dados e retornou nula");
     }
 
     @Test
