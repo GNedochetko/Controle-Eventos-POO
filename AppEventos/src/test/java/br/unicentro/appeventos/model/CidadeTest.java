@@ -6,10 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CidadeTest {
     @Test
     public void testEstadoNotNull() {
-        Cidade c = new Cidade();
-
-        c.setCidadeId(1);
-        assertTrue(c.getEstado() != null, "O estado deve ser um objeto");
+        Estado e = new Estado();
+        Cidade c = new Cidade(11, "Pitanga", 10200, 200000.51, e);
+        assertTrue(c.getEstado() != null, "O estado deve ser um objeto do tipo estado");
     }
 
     @Test
