@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 public class TelaVisualizarEventoController {
 
     private Evento eventoAtual;
+    private SceneController sceneController = new SceneController();
 
     @FXML
     private Button btnExcluir;
@@ -94,18 +95,7 @@ public class TelaVisualizarEventoController {
                 confirm.setContentText("O evento \"" + eventoAtual.getNome() + "\" foi excluído com sucesso!");
                 confirm.showAndWait();
 
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
-                    Parent root = loader.load();
-
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.setTitle("Tela Inicial");
-                    stage.show();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                sceneController.trocarTela("/br/unicentro/appeventos/view/TelaInicial.fxml", "Tela Inicial", event);
 
             } else {
                 Alert erro = new Alert(Alert.AlertType.ERROR);
@@ -119,18 +109,7 @@ public class TelaVisualizarEventoController {
 
     @FXML
     void onActionbtnVoltar(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Tela Inicial");
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sceneController.trocarTela("/br/unicentro/appeventos/view/TelaInicial.fxml", "Tela Inicial", event);
     }
 
     public void preencheCampos(Evento evento) {

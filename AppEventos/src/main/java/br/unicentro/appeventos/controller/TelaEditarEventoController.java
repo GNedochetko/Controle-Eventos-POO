@@ -44,6 +44,8 @@ public class TelaEditarEventoController {
     @FXML
     private TextField txtPreco;
 
+    private SceneController sceneController = new SceneController();
+
     @FXML
     void onActionBtnSalvar(ActionEvent event) {
         try {
@@ -64,44 +66,18 @@ public class TelaEditarEventoController {
             eventoDao.atualizar(e);
 
             alertar("Evento editado com sucesso!");
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Tela Inicial");
-                stage.show();
-            } catch (IOException ex2) {
-                ex2.printStackTrace();
-            }
+            sceneController.trocarTela("/br/unicentro/appeventos/view/TelaInicial.fxml", "Tela Inicial", event);
 
         } catch (Exception ex) {
             alertar("Ocorreu algum erro, evento não editado!");
             ex.printStackTrace();
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Tela Inicial");
-                stage.show();
-            } catch (IOException ex2) {
-                ex2.printStackTrace();
-            }
-
+            sceneController.trocarTela("/br/unicentro/appeventos/view/TelaInicial.fxml", "Tela Inicial", event);
         }
     }
 
     @FXML
     void onActionbtnVoltar(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Tela Inicial");
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sceneController.trocarTela("/br/unicentro/appeventos/view/TelaInicial.fxml", "Tela Inicial", event);
     }
 
     public void preencherCampos(Evento evento) {

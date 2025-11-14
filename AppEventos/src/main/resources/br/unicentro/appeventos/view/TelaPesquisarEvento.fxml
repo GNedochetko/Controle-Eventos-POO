@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unicentro.appeventos.controller.TelaPesquisarEventoController">
+<!-- A versão do JavaFx foi unificada em todos os fxml, antes cada arquivo tinha uma versão diferente, o que retornava warnings e poderia ocasionar um comportamento imprevisível do programa -->
+<AnchorPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unicentro.appeventos.controller.TelaPesquisarEventoController">
 
     <children>
         <ListView fx:id="listaEventos" layoutX="14.0" layoutY="77.0" prefHeight="250.0" prefWidth="560" />

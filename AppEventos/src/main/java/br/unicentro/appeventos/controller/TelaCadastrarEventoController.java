@@ -41,6 +41,7 @@ public class TelaCadastrarEventoController {
 
     private  EventoDAO eventoDAO = new EventoDAO();
     private CidadeDAO cidadeDAO = new CidadeDAO();
+    private SceneController sceneController = new SceneController();
 
     @FXML
     private Button btnVoltar;
@@ -90,15 +91,7 @@ public class TelaCadastrarEventoController {
 
         alertar("Evento cadastrado com sucesso!");
 
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Tela Inicial");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sceneController.trocarTela("/br/unicentro/appeventos/view/TelaInicial.fxml", "Tela Inicial", event);
     }
 
     private void alertar(String msg) {
@@ -110,15 +103,7 @@ public class TelaCadastrarEventoController {
 
     @FXML
     void BotaoVoltarOnAction(ActionEvent event){
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Tela Inicial");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sceneController.trocarTela("/br/unicentro/appeventos/view/TelaInicial.fxml", "Tela Inicial", event);
     }
 }
 

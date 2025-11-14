@@ -1,9 +1,11 @@
 package br.unicentro.appeventos.controller;
 
 import br.unicentro.appeventos.dao.EventoDAO;
+import br.unicentro.appeventos.view.EventoListCell;
 import br.unicentro.appeventos.model.Evento;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +28,7 @@ public class TelaPesquisarEventoController {
     private String termoPesquisado;
     private int paginaAtual = 0;
     private final int eventosPorPagina = 5;
+    private SceneController sceneController = new SceneController();
 
     @FXML
     private Button botaoAnterior;
@@ -43,116 +46,85 @@ public class TelaPesquisarEventoController {
         carregarResultados(event);
     }
 
+    /*agora a lógica por trás de apresentar a listView na tela foi transferida para o eventoListCell, deixando o controller organizado,
+    sem métodos da interface gráfica dentro dele
+     */
     @FXML
     public void initialize() {
-        listaEventos.setCellFactory(list -> new ListCell<Evento>() {
-            @Override
-            protected void updateItem(Evento evento, boolean empty) {
-                super.updateItem(evento, empty);
-
-                if (empty || evento == null) {
-                    setText(null);
-                    setGraphic(null);
-                    return;
-                }
-
-                String linha  = evento.toString();
-
-                Node marcado = criarTextoComHighlight(linha, termoPesquisado);
-
-                Button btnDetalhes = new Button("Ver detalhes");
-                btnDetalhes.setOnAction((e -> botaoDetalhesOnAction(evento, e)));
-
-                HBox row = new HBox(10, marcado, btnDetalhes);
-                row.setFillHeight(true);
-
-                HBox.setHgrow(marcado, Priority.ALWAYS);
-
-                setText(null);
-                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                setGraphic(row);
-            }
-
-            private Node criarTextoComHighlight(String texto, String termo) {
-                if (termo == null || termo.isBlank()) {
-                    return new Label(texto);
-                }
-
-                String base = texto;
-                String tLower = termo.toLowerCase();
-                TextFlow flow = new TextFlow();
-                flow.setLineSpacing(0);
-
-                while (true) {
-                    int idx = base.toLowerCase().indexOf(tLower);
-                    if (idx < 0) {
-                        if (!base.isEmpty()) {
-                            Label lbl = new Label(base);
-                            lbl.setStyle("-fx-font-weight: normal;");
-                            flow.getChildren().add(lbl);
-                        }
-                        break;
-                    }
-                    String antes = base.substring(0, idx);
-                    if (!antes.isEmpty()) {
-                        Label lAntes = new Label(antes);
-                        lAntes.setStyle("-fx-font-weight: normal;");
-                        flow.getChildren().add(lAntes);
-                    }
-
-                    String achado = base.substring(idx, idx + tLower.length());
-                    Label lAchado = new Label(achado);
-                    lAchado.setStyle(
-                            "-fx-background-color: yellow; " +
-                                    "-fx-background-radius: 3; " +
-                                    "-fx-padding: 0 2 0 2; " +
-                                    "-fx-font-weight: bold;"
-                    );
-                    flow.getChildren().add(lAchado);
-
-                    base = base.substring(idx + tLower.length());
-                }
-
-                return flow;
-            }
-
-        });
+        listaEventos.setCellFactory(list ->
+                new EventoListCell(termoPesquisado, this::abrirDetalhes)
+        );
     }
 
+    /*esse metodo é passado por parametro quando se inicia o EventoListCell     porque o botão de ver detalhes está naquela classe, mas
+    a responsabilidade de trocar de tela tem que estar no controller
+     */
+    private void abrirDetalhes(Evento evento) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/br/unicentro/appeventos/view/TelaVisualizarEvento.fxml"));
+            Parent root = loader.load();
+
+            TelaVisualizarEventoController ctrl = loader.getController();
+            ctrl.preencheCampos(evento);
+
+            Stage stage = (Stage) listaEventos.getScene().getWindow();
+            stage.setTitle("Visualizar Evento");
+
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    /*A refatoração do metodo carregar é feita a fim de deixar a operação de acesso ao banco de dados assíncrona, para que
+    a Thread de UI não trave enquanto a operação de busca e listagem está sendo feita (com um banco muito populoso isso se torna um problema)
+     */
+    @FXML
     public void carregarResultados(ActionEvent event) {
-        EventoDAO eventoDAO = new EventoDAO();
-        List<Evento> todosEventos = eventoDAO.listarTodos();
+        //botões de alternar páginas devem ficar desativados enquanto o resultado está sendo carregado
+        botaoAnterior.setDisable(true);
+        botaoProximo.setDisable(true);
+        //label para informar que resultados estão sendo carregados
+        listaEventos.setPlaceholder(new Label("Carregando..."));
 
-        resultados.clear();
-        for (Evento evento : todosEventos) {
-            String nome = evento.getNome().toLowerCase();
-            String cidade = evento.getCidade().getNome().toLowerCase();
-            String estado = evento.getCidade().getEstado().getNome().toLowerCase();
-
-            if (nome.contains(termoPesquisado) || cidade.contains(termoPesquisado) || estado.contains(termoPesquisado)) {
-                resultados.add(evento);
+        //criação da task que vai listar todos os eventos do banco de dados e retornar em uma lista
+        Task<List<Evento>> task = new Task<>() {
+            @Override
+            protected List<Evento> call() {
+                EventoDAO eventoDAO = new EventoDAO();
+                return eventoDAO.listarTodos();
             }
-        }
+        };
 
-        resultados.sort(Comparator.comparing((Evento e) -> !e.getNome().toLowerCase().contains(termoPesquisado))
-                .thenComparing(e -> !e.getCidade().getNome().toLowerCase().contains(termoPesquisado))
-                .thenComparing(e -> !e.getCidade().getEstado().getSigla().toLowerCase().contains(termoPesquisado)));
+        //caso tudo ocorra corretamente, os eventos serão apresentados na tela normalmente como era antes
+        task.setOnSucceeded(e -> {
+            List<Evento> todosEventos = task.getValue();
+            resultados.clear();
+            for (Evento evento : todosEventos) {
+                String nome = evento.getNome().toLowerCase();
+                String cidade = evento.getCidade().getNome().toLowerCase();
+                String estado = evento.getCidade().getEstado().getNome().toLowerCase();
 
-        if(resultados.size() == 0){
-            alertar("Nenhum evento Encontrado.");
-
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Tela Inicial");
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
+                if (nome.contains(termoPesquisado) || cidade.contains(termoPesquisado) || estado.contains(termoPesquisado)) {
+                    resultados.add(evento);
+                }
             }
-        }else{
+            paginaAtual = 0;
             exibirPagina(paginaAtual);
-        }
+            botaoAnterior.setDisable(resultados.isEmpty());
+            botaoProximo.setDisable(resultados.size() <= eventosPorPagina);
+        });
+
+        //caso algum erro ocorra, será alertado ao usuário
+        task.setOnFailed(e -> {
+            alertar("Erro ao buscar eventos: " + task.getException().getMessage());
+        });
+
+        //inicia a Thread que vai fazer o processamento, agora a UI não trava enquanto os resultados estão sendo carregados
+        new Thread(task).start();
     }
 
     private void exibirPagina(int pagina) {
@@ -184,15 +156,7 @@ public class TelaPesquisarEventoController {
 
     @FXML
     void botaoVoltarOnAction(ActionEvent event){
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaInicial.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Tela Inicial");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sceneController.trocarTela("/br/unicentro/appeventos/view/TelaInicial.fxml", "Tela Inicial", event);
     }
 
     private void alertar(String msg) {
@@ -200,23 +164,5 @@ public class TelaPesquisarEventoController {
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
-    }
-
-    private void botaoDetalhesOnAction(Evento evento, ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/unicentro/appeventos/view/TelaVisualizarEvento.fxml"));
-            Parent root = loader.load();
-
-            TelaVisualizarEventoController ctrl = loader.getController();
-            ctrl.preencheCampos(evento);
-
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setTitle("Visualizar Evento");
-
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 }

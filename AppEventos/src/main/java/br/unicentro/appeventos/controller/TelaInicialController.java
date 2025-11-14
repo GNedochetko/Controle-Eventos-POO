@@ -23,6 +23,8 @@ public class TelaInicialController {
     @FXML
     private Button botaoPesquisa;
 
+    private SceneController sceneController = new SceneController();
+
     @FXML
     void barraPesquisaOnAction(ActionEvent event) {
         String termo = barraPesquisa.getText().trim();
@@ -49,15 +51,7 @@ public class TelaInicialController {
 
     @FXML
     void botaoCadastroOnAction(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/br/unicentro/appeventos/view/TelaCadastrarEvento.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Cadastrar Evento");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sceneController.trocarTela("/br/unicentro/appeventos/view/TelaCadastrarEvento.fxml", "Cadastrar Evento", event);
     }
 
     @FXML

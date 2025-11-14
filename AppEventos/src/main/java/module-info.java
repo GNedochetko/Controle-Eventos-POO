@@ -5,6 +5,7 @@ module br.unicentro.appeventos {
     requires org.kordamp.bootstrapfx.core;
     requires transitive java.sql;
     requires javafx.graphics;
+    requires javafx.base;
     opens br.unicentro.appeventos.controller to javafx.fxml;
     exports br.unicentro.appeventos.controller;
     opens br.unicentro.appeventos.model to javafx.fxml;

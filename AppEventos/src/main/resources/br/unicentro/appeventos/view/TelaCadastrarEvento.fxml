@@ -4,7 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unicentro.appeventos.controller.TelaCadastrarEventoController">
+<!-- A versão do JavaFx foi unificada em todos os fxml, antes cada arquivo tinha uma versão diferente, o que retornava warnings e poderia ocasionar um comportamento imprevisível do programa -->
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.unicentro.appeventos.controller.TelaCadastrarEventoController">
 
    <children>
       <VBox layoutX="270.0" layoutY="224.0" prefHeight="54.0" prefWidth="198.0">
